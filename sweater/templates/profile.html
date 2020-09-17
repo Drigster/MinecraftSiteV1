@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Профиль{% endblock %}
+
+{% block content %}
+    <body>
+        <form method="POST">
+            <table>
+                <tr>
+                    <td><h3>Привет, {{ current_user.login }}!</h3></td>
+                </tr>
+                <tr>
+                    <td><h5>Создать новый пароль</h5></td>
+                </tr>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <tr>
+                        {% for message in messages %}
+                            <td>{{ message }}</td>
+                        {% endfor %}
+                        </tr>
+                    {% endif %}
+                {% endwith %}
+                {% block body %}{% endblock %}
+                <tr>
+                    <td>Старый пароль</td>
+                    <td><input type="password" name="password"></td>
+                </tr>
+                <tr>
+                    <td>Новый пароль</td>
+                    <td><input type="password" name="new_password1"></td>
+                </tr>
+                <tr>
+                    <td>Повторить новый пароль</td>
+                    <td><input type="password" name="new_password2"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit" value="Подтвердить"></td>
+                </tr>
+            </table>
+        </form>
+    </body>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}AdminPanel{% endblock %}
+
+{% block content %}
+    <h1>Админ панель</h1>
+    <form method="POST">
+        <table>
+            {% for user in users %}
+                <tr>
+                    <td><input type="radio" value={{ user.login }} name="user"></td>
+                    <td>{{ user.login }}</td>
+                    <td>{{ user.permission }}</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td><input type="submit" value="Сбросить пароль"></td>
+            </tr>
+        </table>
+    </form>
+{% endblock %}

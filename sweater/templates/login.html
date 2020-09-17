@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Войти{% endblock %}
+
+{% block content %}
+    <body>
+        <form method="POST">
+            <table>
+                <tr>
+                    <td><h5>Войти</h5></td>
+                </tr>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <tr>
+                        {% for message in messages %}
+                            <td class="flash">{{ message }}</td>
+                        {% endfor %}
+                        </tr>
+                    {% endif %}
+                {% endwith %}
+                {% block body %}{% endblock %}
+                <tr>
+                    <td>Логин</td>
+                    <td><input type="text" name="login"></td>
+                </tr>
+                <tr>
+                    <td>Пароль</td>
+                    <td><input type="password" name="password"></td>
+                </tr>
+                <tr>
+                    <td><a href="{{ url_for('register') }}">Зарегистрироватся</a></td>
+                    <td><input type="submit" value="Войти"></td>
+                </tr>
+            </table>
+        </form>
+    </body>
+{% endblock %}

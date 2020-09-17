@@ -1,0 +1,21 @@
+<title>{% block title %}{% endblock %} - DisePVP</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}"/>
+<meta charset="UTF-8">
+<header class="header">
+    <a href="{{ url_for('main') }}"><h1>DisePVP</h1></a>
+</header>
+<nav>
+    <ul class="menuItems">
+        <li><a href="http://213.168.10.192:9274/Launcher.exe">Скачать лаунчер</a></li>
+        {% if current_user.is_authenticated %}
+            <li><a href="{{ url_for('profile') }}">Привет, {{ current_user.login }}</a></li>
+            <li><a href="{{ url_for('logout') }}">Выйти</a></li>
+        {% else %}
+            <li><a href="{{ url_for('register') }}">Зарегистрироватся</a></li>
+            <li><a href="{{ url_for('login_page') }}">Войти</a></li>
+        {% endif %}
+    </ul>
+</nav>
+<div>
+    {% block content %}{% endblock %}
+</div>
