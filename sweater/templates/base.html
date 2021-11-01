@@ -1,12 +1,24 @@
 <title>{% block title %}{% endblock %} - DisePVP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kelly+Slab&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}"/>
+<link rel="icon" type="image/png" href="{{ url_for('favicon') }}" >
 <meta charset="UTF-8">
+{% block head %}{% endblock %}
 <header class="header">
     <a href="{{ url_for('main') }}"><h1>DisePVP</h1></a>
 </header>
 <nav>
     <ul class="menuItems">
-        <li><a href="http://213.168.10.192:9274/Launcher.exe">Скачать лаунчер</a></li>
+        <li><a href="{{ url_for('download') }}">Скачать лаунчер</a></li>
+        <li class="dropDown">
+            <a>Сервера</a>
+            <div class="dropDownContent">
+                <div style="font-size: 10px;">Упс... Кажется кто-то забыл добавить информацию</div>
+            </div>
+        </li>
         {% if current_user.is_authenticated %}
             <li><a href="{{ url_for('profile') }}">Привет, {{ current_user.login }}</a></li>
             <li><a href="{{ url_for('logout') }}">Выйти</a></li>
@@ -16,6 +28,10 @@
         {% endif %}
     </ul>
 </nav>
-<div>
+<div class="bodyContent">
     {% block content %}{% endblock %}
 </div>
+<footer>
+    Work in progress!
+</footer>
+{% block script %}{% endblock %}

@@ -1,1 +1,6 @@
 venv/
+start.sh
+startnogui.sh
+\#source/logs/
+sweater/users.db
+sweater/passwords.py

@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% block title %}Vanila{% endblock %}
+
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="content">
+	<div style="width: 60%;">
+    <canvas id="myChart"></canvas>
+  </div>
+</div>
+{% endblock %}
+{% block script %}
+<script>
+    const chunk = {{ chunk }};
+
+    const online = [];
+    const players = [];
+    const date = [];
+
+    for (var i = chunk.length - 1; i >= 0; i= i-2) {
+      try {
+        const data = chunk[i].split(";");
+        const data2 = chunk[i+1].split(";");
+        online.push(Math.round((parseInt(data[0])+parseInt(data2[0]))/2));
+        players.push(data[1]);
+        date.push(data[2]);
+      }
+      catch {
+         
+      }
+    }
+
+    //Setup block
+      const data = {
+            datasets: [{
+                label: '# of Votes',
+                data: [
+                  {x: Date.now() - 86400000, y: 0},
+                  {x: date[0], y: online[0]},
+                  {x: date[1], y: online[1]},
+                  {x: date[2], y: online[2]},
+                  {x: date[3], y: online[3]},
+                  {x: date[4], y: online[4]},
+                  {x: date[5], y: online[5]},
+                  {x: date[6], y: online[6]},
+                  {x: date[7], y: online[7]},
+                  {x: date[8], y: online[8]},
+                  {x: date[9], y: online[9]},
+                  {x: date[10], y: online[10]},
+                  {x: date[11], y: online[11]},
+                  {x: date[12], y: online[12]},
+                  {x: date[13], y: online[13]},
+                  {x: date[14], y: online[14]},
+                  {x: date[15], y: online[15]},
+                  {x: date[16], y: online[16]},
+                  {x: date[17], y: online[17]},
+                  {x: date[18], y: online[18]},
+                  {x: date[19], y: online[19]},
+                  {x: date[20], y: online[20]},
+                  {x: date[21], y: online[21]},
+                  {x: date[22], y: online[22]},
+                  {x: date[23], y: online[23]},
+                  {x: date[24], y: online[24]},
+                  {x: date[25], y: online[25]},
+                  {x: date[26], y: online[26]},
+                  {x: date[27], y: online[27]},
+                  {x: date[28], y: online[28]},
+                  {x: date[29], y: online[29]},
+                  {x: date[30], y: online[30]},
+                  {x: date[31], y: online[31]},
+                  {x: date[32], y: online[32]},
+                  {x: date[33], y: online[33]},
+                  {x: date[34], y: online[34]},
+                  {x: date[35], y: online[35]},
+                  {x: date[36], y: online[36]},
+                  {x: date[37], y: online[37]},
+                  {x: date[38], y: online[38]},
+                  {x: date[39], y: online[39]},
+                  {x: date[40], y: online[40]},
+                  {x: date[41], y: online[41]},
+                  {x: date[42], y: online[42]},
+                  {x: date[43], y: online[43]},
+                  {x: date[44], y: online[44]},
+                  {x: date[45], y: online[45]},
+                  {x: date[46], y: online[46]},
+                  {x: Date.now(), y: 0}
+                ],
+                borderWidth: 2
+            }]
+      };
+
+    //Config block
+      const config = {
+        type: 'line',
+        data,
+        options: {
+          scales: {
+            x:{
+              type: 'time',
+              time: {
+                unit: 'minute',
+                displayFormats: {
+                  minute: 'HH:mm'
+                }
+              }
+            },
+            y: {
+              min: 0,
+              suggestedMax: 10,
+              beginAtZero: true
+            }
+          }
+        }
+      };
+
+    //Render block
+    const myChart = new Chart(
+      document.getElementById('myChart'),
+      config
+    );
+  </script>
+{% endblock %}

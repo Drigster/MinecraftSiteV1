@@ -1,41 +1,43 @@
 {% extends 'base.html' %}
 
-{% block title %}Зарегистрироватся{% endblock %}
+{% block title %}Регистрация{% endblock %}
+
+{% block head %}<script src="https://www.google.com/recaptcha/api.js?render=reCAPTCHA_site_key"></script>{% endblock %}
 
 {% block content %}
-    <body>
-        <form method="POST">
-            <table>
+<div class="login">
+    <h4>Зарегистрироватся</h4>
+    <form method="POST">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
                 <tr>
-                    <td><h5>Зарегистрироватся</h5></td>
+                {% for message in messages %}
+                    <td class="flash">{{ message }}</td>
+                {% endfor %}
                 </tr>
-                {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                        <tr>
-                        {% for message in messages %}
-                            <td>{{ message }}</td>
-                        {% endfor %}
-                        </tr>
-                    {% endif %}
-                {% endwith %}
-                {% block body %}{% endblock %}
-                <tr>
-                    <td>Логин</td>
-                    <td><input type="text" name="login"></td>
-                </tr>
-                <tr>
-                    <td>Пароль</td>
-                    <td><input type="password" name="password"></td>
-                </tr>
-                <tr>
-                    <td>Повторить пароль</td>
-                    <td><input type="password" name="password2"></td>
-                </tr>
-                <tr>
-                    <td><a href="{{ url_for('login_page') }}">Войти</a></td>
-                    <td><input type="submit" value="Зарегистрироватся"></td>
-                </tr>
-            </table>
-        </form>
-    </body>
+            {% endif %}
+        {% endwith %}
+        <div class="textField">
+            <label>Никнейм</label><br/>
+            <input type="text" name="login" required>
+            <span></span>
+        </div>
+        <div class="textField">
+            <label>Почта</label><br/>
+            <input type="text" name="email" required>
+            <span></span>
+        </div>
+        <div class="textField">
+            <label>Пароль</label><br/>
+            <input type="password" name="password" required>
+            <span></span>
+        </div>
+        <div class="textField">
+            <label>Повторить пароль</label><br/>
+            <input type="password" name="password2" required>
+            <span></span>
+        </div>
+        <input class="submitButton" type="submit" value="Зарегистрироватся">
+    </form>
+</div>
 {% endblock %}

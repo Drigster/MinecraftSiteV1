@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title %}Подтверждение{% endblock %}
+
+{% block content %}
+<div class="content"></div>
+	<h3>{{ message }}</h1>
+	<a href="{{ url_for('profile') }}">Перейти в профиль</a>
+{% endblock %}

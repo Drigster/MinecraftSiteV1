@@ -3,42 +3,183 @@
 {% block title %}Профиль{% endblock %}
 
 {% block content %}
-    <body>
-        <form method="POST">
-            <table>
-                <tr>
-                    <td><h3>Привет, {{ current_user.login }}!</h3></td>
-                </tr>
-                <tr>
-                    <td><h5>Создать новый пароль</h5></td>
-                </tr>
-                {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                        <tr>
-                        {% for message in messages %}
-                            <td>{{ message }}</td>
-                        {% endfor %}
-                        </tr>
-                    {% endif %}
-                {% endwith %}
-                {% block body %}{% endblock %}
-                <tr>
-                    <td>Старый пароль</td>
-                    <td><input type="password" name="password"></td>
-                </tr>
-                <tr>
-                    <td>Новый пароль</td>
-                    <td><input type="password" name="new_password1"></td>
-                </tr>
-                <tr>
-                    <td>Повторить новый пароль</td>
-                    <td><input type="password" name="new_password2"></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><input type="submit" value="Подтвердить"></td>
-                </tr>
-            </table>
-        </form>
-    </body>
+<div class="content">
+	<div class="block">
+		<div class="skin-block">
+			<div id="skin">
+				<img src="{{ skin_image }}?{{ range(1, 99999) | random }}" alt="Your skin!">
+			</div>
+			<div>
+				<h5>Скин</h5>
+				<p>Размер скина должен быть 64x64 </p>
+				<form action="" method="POST" enctype="multipart/form-data" >
+	    			<input type="file" name="skin"><br>
+	    			<button type="submit" value="skin" name="sumbit">Загрузить</button>
+				</form>
+			</div>
+			<div style="display: none;">
+				<h5>Плащ</h5>
+				<p>Установить плащ</p>
+				<form action="" method="POST" enctype="multipart/form-data" >
+	    			<input type="file" name="cape"><br>
+	    			<button type="submit" value="cape" name="sumbit">Загрузить</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="block">
+		<h4>Привет, {{ current_user.login }}!</h4>
+		{% with messages = get_flashed_messages() %}
+			{% if messages %}
+				<tr>
+				{% for message in messages %}
+					<td class="flash">{{ message }}</td>
+				{% endfor %}
+				</tr>
+			{% endif %}	
+		{% endwith %}
+		<div>
+			<div>
+				<table>
+					{% if current_user.email == None %}
+						<tr>
+							<td><a>Почта: </a></td>
+							<td><input type="text" name="old_email" value="Отсутствует" readonly></td>
+							<td><button id="changeEmail">Привязать почту</button></td>
+						</tr>
+					{% elif current_user.verified != True %}
+						<tr>
+							<td><a>Почта: </a></td>
+							<td><input type="text" name="old_email" value="{{ current_user.email }}" readonly></td>
+							<td><button type="submit" value="verify" name="sumbit">Верифицировать</button></td>
+							<td><button id="changeEmail">Сменить почту</button></td>
+						</tr>
+					{% else %}
+						<tr>
+							<td><a>Почта: </a></td>
+							<td><input type="text" name="old_email" value="{{ current_user.email }}" readonly></td>
+							<td><button id="changeEmail">Сменить почту</button></td>
+						</tr>
+					{% endif %}
+					<tr>
+						<td><a>Пароль: </a></td>
+						<td><input type="password" value="Хуй знает)))" readonly></td>
+						<td><button id="changePassword">Создать новый пароль</button></td>
+					</tr>
+					<tr>
+						<td><a>Дата регистрации: </a></td>
+						{% if current_user.email == Null %}
+							<tr>
+								<td><input type="text" value="{{ current_user.reg_date|date('%d.%m.%y:%H.%M', '%d %B %Yг, %H:%M') }}" readonly></td>
+							</tr>
+						{% else %}
+							<td><input type="text" value="Отсутствует" readonly></td>
+						{% endif %}
+					</tr>
+				</table>
+			</div>
+			<div id="changeEmailDropDown">
+				<form method="POST">
+					<table>
+						{% if current_user.email == "null" %}
+							<tr>
+								<td><a>Старая почта</a></td>
+								<td><input type="text" name="old_email" value="Отсутствует" readonly></td>
+							</tr>
+						{% elif current_user.verified != True %}
+							<tr>
+								<td><a>Старая почта</a></td>
+								<td><input type="text" name="old_email" value="{{ current_user.email }}" readonly></td>
+								<td><button type="submit" value="verify" name="sumbit">Верифицировать</button></td>
+							</tr>
+						{% else %}
+							<tr>
+								<td><a>Старая почта</a></td>
+								<td><input type="text" name="old_email" value="{{ current_user.email }}" readonly></td>
+							</tr>
+						{% endif %}
+						<tr>
+							<td>Новая почта</td>
+							<td><input type="text" name="email"></td>
+						</tr>
+						<tr>
+							<td><button type="submit" value="email" name="sumbit">Подтвердить</button></td>
+						</tr>
+						
+					</table>
+				</form>
+			</div>
+			<div id="changePasswordDropDown">
+				<form method="POST">
+					<table>
+						<tr>
+							<td>Старый пароль</td>
+							<td><input type="password" name="password"></td>
+						</tr>
+						<tr>
+							<td>Новый пароль</td>
+							<td><input type="password" name="new_password1"></td>
+						</tr>
+						<tr>
+							<td>Повторить новый пароль</td>
+							<td><input type="password" name="new_password2"></td>
+						</tr>
+						<tr>
+							<td><button type="submit" value="password" name="sumbit">Подтвердить</button></td>
+						</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+		<div>
+			{% if current_user.permission > 0 %}
+				<a class="link" href="{{ url_for('admin') }}">Админка</a>
+			{% endif %}
+		</div>
+	</div>
+	<div class="block-wide">
+		<h4>Входы в аккаунт</h4>
+		<form method="POST">
+			<table>
+				<tr>
+					<th>{#<button type="submit" value="delete_date" name="sumbit">Сбросить</button>#}</th>
+					<th>IP аддрес</th>
+					<th>Время</th>
+				</tr>
+				{% for ip in current_user.ip|dict %}
+					<tr>
+						<td>{#<input type="checkbox" value="{{ ip }}" name="date">#}</td>
+						<td>{{ current_user.ip|dict|index(ip) }}</td>
+						<td>{{ ip|date("%d.%m.%y:%H.%M", "%d %B %Yг, %H:%M") }}</td>
+					</tr>
+				{% endfor %}
+			</table>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+	var changePasswordButton = document.getElementById("changePassword")
+	var changePasswordDropDown = document.getElementById("changePasswordDropDown")
+
+	changePasswordDropDown.style.display = "none";
+	changePasswordButton.onclick = function(){
+  		if (changePasswordDropDown.style.display == "none"){
+    		changePasswordDropDown.style.display = "block";
+  		} else {
+    		changePasswordDropDown.style.display = "none";
+  		}
+	};
+
+	var changeEmailButton = document.getElementById("changeEmail")
+	var changeEmailDropDown = document.getElementById("changeEmailDropDown")
+
+	changeEmailDropDown.style.display = "none";
+	changeEmailButton.onclick = function(){
+  		if (changeEmailDropDown.style.display == "none"){
+    		changeEmailDropDown.style.display = "block";
+  		} else {
+    		changeEmailDropDown.style.display = "none";
+  		}
+	};
+</script>
 {% endblock %}

@@ -2,20 +2,131 @@
 
 {% block title %}AdminPanel{% endblock %}
 
+{% block head %}{% endblock %}
+
 {% block content %}
+<div class="content">
     <h1>Админ панель</h1>
-    <form method="POST">
-        <table>
-            {% for user in users %}
+    <div class="block">
+        {% if status_V != False %}
+            <table>
                 <tr>
-                    <td><input type="radio" value={{ user.login }} name="user"></td>
-                    <td>{{ user.login }}</td>
-                    <td>{{ user.permission }}</td>
+                    <th>Motd:</th>
+                    <td>{{ status_V.description }}</td>
                 </tr>
-            {% endfor %}
-            <tr>
-                <td><input type="submit" value="Сбросить пароль"></td>
-            </tr>
-        </table>
-    </form>
+                <tr>
+                    <th>Игроков онлайн: </th>
+                    <td>{{ status_V.players.online }}/{{ status_V.players.max }}</td>
+                </tr>
+                <tr>
+                    <th>Игрокои: </th>
+                    <td>{{ status_V.players.names | join(", ") }}</td>
+                </tr>
+            </table>
+        {% else %}
+            <table>
+                <tr>
+                    <th>Motd:</th>
+                    <td>Timed out</td>
+                </tr>
+                <tr>
+                    <th>Игроков онлайн: </th>
+                    <td>0/0</td>
+                </tr>
+                <tr>
+                    <th>Игрокои: </th>
+                    <td></td>
+                </tr>
+            </table>
+        {% endif %}
+    </div>
+    <div class="block">
+        {% if status_M != False %}
+            <table>
+                <tr>
+                    <th>Motd:</th>
+                    <td>{{ status_M.motd }}</td>
+                </tr>
+                <tr>
+                    <th>Игроков онлайн: </th>
+                    <td>{{ status_M.players.online }}/{{ status_M.players.max }}</td>
+                </tr>
+                <tr>
+                    <th>Игрокои: </th>
+                    <td>{{ status_M.players.names | join(", ") }}</td>
+                </tr>
+            </table>
+        {% else %}
+            <table>
+                <tr>
+                    <th>Motd:</th>
+                    <td>Timed out</td>
+                </tr>
+                <tr>
+                    <th>Игроков онлайн: </th>
+                    <td>0/0</td>
+                </tr>
+                <tr>
+                    <th>Игрокои: </th>
+                    <td></td>
+                </tr>
+            </table>
+        {% endif %}
+    </div>
+    <br>
+    <div>
+        <form method="POST">
+            <table>
+                <tr>
+                    <th class="tableButton"><button type="submit" value="reload" name="sumbit">R</button></th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Verified</th>
+                    <th>FakeUser</th>
+                    <th>Registration Date</th>
+                    <th>Last Login</th>
+                </tr>
+                {% for user in users %}
+                    <tr>
+                        <td class="tableButton"><input type="radio" value={{ user.login }} name="user"></td>
+                        <td>{{ user.login }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.verified }}</td>
+                        <td>{{ user.fakeUser }}</td>
+                        {% if user.ip != None %}
+                            {% if user.reg_date == None %}
+                                <td>None</td>
+                            {% else %}
+                                <td>{{ user.reg_date|date('%d.%m.%y:%H.%M', '%d %B %Yг, %H:%M') }}</td>
+                            {% endif %}
+                            <td>{{ user.ip|dict|last }}</td>
+                        {% else %}
+                            <td>{{ user.ip }}</td>
+                            <td>{{ user.ip }}</td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td class="tableButton"><button type="submit" value="reload" name="sumbit">R</button></td>
+                    <td><button type="submit" value="reset_pwd" name="sumbit">Сбросить пароль</button></td>
+                    <td><button type="submit" value="delete_ac" name="sumbit">Удалить пользователя</button></td>
+                    <td><button type="submit" value="login_as" name="sumbit">Переключить фейк юзера</button></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+<script src="https://mcapi.us/scripts/minecraft.min.js"></script>
+<script>
+    MinecraftAPI.getServerStatus('disepvp.ee', {
+        port: 666 // optional, only if you need a custom port
+    }, function (err, status) {
+        if (err) {
+            return document.querySelector('.server-status').innerHTML = 'Error loading status';
+        }
+
+        // you can change these to your own message!
+        document.querySelector('.server-online').innerHTML = status.online ? 'up' : 'down';
+    });
+</script>
 {% endblock %}

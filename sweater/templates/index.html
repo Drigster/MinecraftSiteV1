@@ -3,6 +3,18 @@
 {% block title %}Главная{% endblock %}
 
 {% block content %}
-	<body>
-    </body>
+<div class="block">
+	<h2>Как играть?</h2>
+	<ul>
+		<li>1. Для игры на нашем сервере необходимо <a class="link" href="{{ url_for('register') }}">зарегистрироватся</a></li>
+		<li>2. Для работы лаунчера и майнкрафта требуется <a class="link" href="https://java.com">java</a></li>
+		<li>3. И не забудь скачать сам <a class="link" href="{{ url_for('download') }}">лаунчер</a></li>
+		<li>4. Ну и конечно же наслаждайся</li>
+	</ul>
+	По ВСЕМ проблемам писать Drigster#7777
+</div>
+<div class="block">
+	<h2>Наш дискорд!</h2>
+	<iframe src="https://discord.com/widget?id=364741995954176000&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+</div>
 {% endblock %}
